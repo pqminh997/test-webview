@@ -16,15 +16,13 @@ export default function WebViewBridgeTest() {
     addLog(`Sending to React Native: ${message}`)
 
     try {
-      // For iOS
+      const jsonData = {data: message, id: `${Date.now()}`}
+      const data = JSON.stringify(jsonData)
       if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.reactNativeWebView) {
-        window.webkit.messageHandlers.reactNativeWebView.postMessage(message)
-        addLog("Message sent via iOS bridge")
+        window.webkit.messageHandlers.reactNativeWebView.postMessage(data)
       }
-      // For Android
       else if (window.ReactNativeWebView) {
-        window.ReactNativeWebView.postMessage(message)
-        addLog("Message sent via Android bridge")
+        window.ReactNativeWebView.postMessage(data)
       } else {
         addLog("No React Native WebView bridge found. Are you viewing this in a React Native WebView?")
       }
